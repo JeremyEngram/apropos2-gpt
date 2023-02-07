@@ -1,0 +1,45 @@
+#!/bin/bash
+
+
+echo "To: ChatGPT:> make a bash shell script that does a while loop that creates a list of commands with compgen then iterrates through that list with the following commands man, info, cheat, tldr, and help outputting the results to both the screen standard output and a log"
+
+#This script will list all commands available from compgen and then iterate through them with the following commands: man, info, cheat, tldr and hg.
+
+#Create a log file
+touch log.txt
+
+#Create a list of commands
+COMMANDLIST=$(compgen -c)
+
+#Loop through list
+for command in $COMMANDLIST
+ do
+ #Man command
+ man $command | tee -a man_log.txt
+ echo -e "
+"
+
+ #Info command
+ info $command | tee -a info_log.txt
+ echo -e "
+"
+
+ #Cheat command
+ cheat $command | tee -a cheat_log.txt
+ echo -e "
+"
+
+ #Tldr command
+ tldr $command | tee -a tldr_log.txt
+ echo -e "
+"
+
+ #Hg command
+ hg $command | tee -a hg_log.txt
+ echo -e "
+"
+ done
+
+# Print the log to the standard output
+mkdir compgen && mv *log.txt compgen; zip -r compgen.zip compgen
+
